@@ -41,7 +41,9 @@ function simplesaml_init() {
 	// check for force authentication
 	elgg_extend_view("page/default", "simplesaml/force_authentication", 200);
 	elgg_extend_view("page/walled_garden", "simplesaml/force_authentication", 200);
-	
+
+    elgg_register_library("pgregg.ipcheck", dirname(__FILE__) . "/vendors/pgregg/ip_check.php");
+
 	// extend CSS/JS
 	elgg_extend_view("js/admin", "js/simplesaml/admin");
 	

@@ -158,8 +158,14 @@ if (is_callable("simplesaml_get_configured_sources")) {
 					foreach ($sources as $source) {
 						$label = simplesaml_get_source_label($source);
 						$title = elgg_echo("simplesaml:settings:sources:configuration:title", array($label));
+
+                        $body = "<div>";
+						$body .= elgg_echo("simplesaml:settings:sources:configuration:display_name");
+						$body .= elgg_view("input/url", array("name" => "params[" . $source . "_display_name]", "value" => $plugin->getSetting($source . "_display_name")));
+						$body .= "<div class='elgg-subtext'>" . elgg_echo("simplesaml:settings:sources:configuration:display_name:description") . "</div>";
+						$body .= "</div>";
 						
-						$body = "<div>";
+						$body .= "<div>";
 						$body .= elgg_echo("simplesaml:settings:sources:configuration:icon");
 						$body .= elgg_view("input/url", array("name" => "params[" . $source . "_icon_url]", "value" => $plugin->getSetting($source . "_icon_url")));
 						$body .= "<div class='elgg-subtext'>" . elgg_echo("simplesaml:settings:sources:configuration:icon:description") . "</div>";
@@ -180,6 +186,12 @@ if (is_callable("simplesaml_get_configured_sources")) {
 							$body .= "</div>";
 						}
 						
+						$body .= "<div>";
+						$body .= elgg_echo("simplesaml:settings:sources:configuration:force_ip_filter");
+						$body .= elgg_view("input/url", array("name" => "params[" . $source . "_force_ip_filter]", "value" => $plugin->getSetting($source . "_force_ip_filter")));
+						$body .= "<div class='elgg-subtext'>" . elgg_echo("simplesaml:settings:sources:configuration:force_ip_filter:description") . "</div>";
+						$body .= "</div>";
+
 						// advanced access options
 						$body .= "<h3 class='mtm'>" . elgg_echo("simplesaml:settings:sources:configuration:access") . "</h3>";
 						$body .= elgg_view("output/longtext", array("value" => elgg_echo("simplesaml:settings:sources:configuration:access:description")));

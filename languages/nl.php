@@ -1,6 +1,8 @@
 <?php
 $language = array (
   'simplesaml:error:attribute_validation' => 'De site beheerder heeft extra regels toegevoegd aan de autorisatie procedure die verhinderen dat je gebruik kunt maken van %s als een autorisatiebron',
+  'simplesaml:settings:sources:configuration:display_name' => 'Configureer een weergavenaam (optioneel)',
+  'simplesaml:settings:sources:configuration:display_name:description' => 'Hiermee kan een gebruikersvriendelijkere weergavenaam ingesteld worden voor de service. Wanneer dit veld leeg is wordt de bronnaam gebruikt.',
   'simplesaml:settings:sources:configuration:access' => 'Geavanceerde toegangsinstellingen',
   'simplesaml:settings:sources:configuration:access:description' => 'Je kunt de toegang van geautoriseerde SAML gebruikers verder limiteren door het toevoegen van extra filters hieronder. Je kunt alleen gebruikers toelaten die overeenkomen of juist niet overeenkomen met de instellingen. De overeenkomst wordt gecontroleerd op alle waarden van het geconfigureerde veld (bijvoorbeeld meerdere group waarden), als één van de waarden overeenkomt toegang is toegestaan of geweigerd. Als de veldnaam of waarde leeg is worden er geen extra controles uitgevoerd.',
   'simplesaml:settings:sources:configuration:access_type:allow' => 'Toegang toestaan',
@@ -11,6 +13,8 @@ $language = array (
   'simplesaml:settings:sources:configuration:access_field:description' => 'Om de beschikbare velden te controleren, meld je aan op de simplesamlphp website en gebruik de test authenticatiebron link',
   'simplesaml:settings:sources:configuration:access_value' => 'SAML waarde',
   'simplesaml:settings:sources:configuration:access_value:description' => 'Dit kan een exacte of regex waarde zijn, afhankelijk van de instelling hierboven. Voor hulp met de regex overeenkomst kijk op http://php.net/manual/en/function.preg-match.php',
+  'simplesaml:settings:sources:configuration:force_ip_filter' => 'Forceer authenticatie IP filter (optioneel)',
+  'simplesaml:settings:sources:configuration:force_ip_filter:description' => 'Deze instelling beperkt geforceerde authenticatie tot een lijst van IP ranges (komma gescheiden). Voorbeeld: 127.0.0.1/32, 127.1.0.0/24.',
   'simplesaml:error:no_source' => 'Geen authenticatie bron gedefinieerd',
   'simplesaml:error:source_not_enabled' => 'De opgegeven authenticatie bron is niet ingeschakeld op deze site',
   'simplesaml:error:source_mismatch' => 'De opgegeven authenticatie bron komt niet overeen met de server connectie',

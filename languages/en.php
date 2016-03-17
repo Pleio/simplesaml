@@ -37,6 +37,8 @@ $english = array(
 	'simplesaml:settings:sources:force_authentication' => "Force authentication",
 	
 	'simplesaml:settings:sources:configuration:title' => "Configuration settings for: %s",
+    'simplesaml:settings:sources:configuration:display_name' => "Configure a display name (optional)",
+	'simplesaml:settings:sources:configuration:display_name:description' => "Provide a more readable display name for your service provider. If not configured the service name will be used.",
 	'simplesaml:settings:sources:configuration:icon' => "URL to an icon for this connection (optional)",
 	'simplesaml:settings:sources:configuration:icon:description' => "You can provide an URL to an icon for this connection, it will be used on the login screen and the user settings page.",
 	'simplesaml:settings:sources:configuration:external_id' => "Field with the unique user id from the SAML connection (optional)",
@@ -44,7 +46,8 @@ $english = array(
 	'simplesaml:settings:sources:configuration:auto_link' => "Automaticly link existing accounts based on profile information (optional)",
 	'simplesaml:settings:sources:configuration:auto_link:description' => "If the external authentication source provides the configured profile information, both accounts will be linked automaticly.",
 	'simplesaml:settings:sources:configuration:auto_link:none' => "Don't allow automatic linking",
-	
+	'simplesaml:settings:sources:configuration:force_ip_filter' => "Forced login IP filter (optional)",
+	'simplesaml:settings:sources:configuration:force_ip_filter:description' => "This setting restricts force IP login to a list of IP ranges (comma seperated). Example: 127.0.0.1/32, 127.1.0.0/24",
 	'simplesaml:settings:sources:configuration:access' => "Advanced access options",
 	'simplesaml:settings:sources:configuration:access:description' => "You can further limit the access of authorized SAML users by adding an extra filter below. You can explicitly allow user who match the settings or deny users who match the settings. The matching checks all values of the configured field (for example mulitple group values) if one of the values matches the user is allowed or denied. If eighter the field name or value is empty no additional validation will be applied.",
 	'simplesaml:settings:sources:configuration:access_type:allow' => "Allow access",

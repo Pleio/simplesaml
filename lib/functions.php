@@ -14,17 +14,22 @@
  * @return string the readable name for the SP
  */
 function simplesaml_get_source_label($source) {
-	$result = $source;
-	
-	if (!empty($source)) {
-		$lan_key = "simplesaml:sources:label:" . $source;
-		
-		if (elgg_echo($lan_key) != $lan_key) {
-			$result = elgg_echo($lan_key);
-		}
+	if (empty($source)) {
+		return $source;
 	}
-	
-	return $result;
+
+	$display_name = elgg_get_plugin_setting($source . "_display_name", "simplesaml");
+	if ($display_name) {
+		return $display_name;
+	}
+
+	$key = "simplesaml:sources:label:" . $source;
+	$translation_name = elgg_echo($key);
+	if ($translation_name && $translation_name != $key) {
+		return $translation_name;
+	}
+
+	return $source;
 }
 
 /**
@@ -184,6 +189,8 @@ function simplesaml_find_user($source, $saml_attributes) {
 					$auto_link_value = $auto_link_value[0];
 				}
 				
+                $auto_link_value = strtolower($auto_link_value);
+
 				if (!empty($profile_field) && !empty($auto_link_value)) {
 					switch ($profile_field) {
 						case "username":
@@ -715,36 +722,57 @@ function simplesaml_check_force_authentication() {
 		// no need to do anything if already logged in
 		return;
 	}
-	
+
 	if (isset($_GET["disable_sso"])) {
 		// bypass for sso
 		$_SESSION["simpleaml_disable_sso"] = true;
 		return;
 	}
-	
+
 	if (isset($_SESSION["simpleaml_disable_sso"]) && $_SESSION["simpleaml_disable_sso"] === true) {
 		// sso was bypassed on a previous page
 		return;
 	}
-	
+
 	if (strpos(current_page_url(), elgg_get_site_url() . "saml/no_linked_account") === 0) {
 		// do not force authentication on the no_linked_account page
 		return;
 	}
-	
-	// get the plugin setting that defines force authentications
-	$setting = elgg_get_plugin_setting("force_authentication", "simplesaml");
-	if (!empty($setting)) {
-		// check if the authentication source is enabled
-		if (simplesaml_is_enabled_source($setting)) {
-				
-			// make sure we can forward you to the correct url
-			if (!isset($_SESSION["last_forward_from"])) {
-				$_SESSION["last_forward_from"] = current_page_url();
+
+	$source = elgg_get_plugin_setting("force_authentication", "simplesaml");
+	if (!$source) {
+		return;
+	}
+
+	if (!simplesaml_is_enabled_source($source)) {
+		return;
+	}
+
+	$ip_filter = elgg_get_plugin_setting($source . "_force_ip_filter", "simplesaml");
+	if ($ip_filter) {
+		elgg_load_library("pgregg.ipcheck");
+		$client_ip = $_SERVER["REMOTE_ADDR"];
+		$client_ip = elgg_trigger_plugin_hook("remote_address", "system", array("remote_address" => $client_ip), $client_ip);
+
+		$ip_ranges = explode(',', $ip_filter);
+		$found = false;
+		foreach ($ip_ranges as $range) {
+			if (ip_in_range($client_ip, $range)) {
+				$found = true;
+				break;
 			}
-			forward("saml/login/" . $setting);
+		}
+
+		if (!$found) {
+			return;
 		}
 	}
+
+	if (!isset($_SESSION["last_forward_from"])) {
+		$_SESSION["last_forward_from"] = current_page_url();
+	}
+
+	forward("saml/login/" . $source);
 }
 
 /**
