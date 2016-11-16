@@ -4,8 +4,7 @@
  */
 
 if (elgg_is_logged_in()) {
-	register_error(elgg_echo("simplesaml:error:loggedin"));
-	forward(REFERER);
+	forward("/");
 }
 
 $source = get_input("saml_source");
