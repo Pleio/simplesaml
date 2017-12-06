@@ -2,11 +2,15 @@
 
 // where to go after authentication
 $returnTo = get_input("ReturnTo");
-if (!empty($returnTo)) {
-	if (elgg_is_logged_in()) {
-		forward($returnTo);
-	} else {
-		$_SESSION["last_forward_from"] = $returnTo;
+$parsedReturnTo = parse_url($returnTo);
+
+if ($parsedReturnTo) {
+	if (preg_match('/(.+)\.pleio\.nl$/', $parsedReturnTo['host'])) {
+		if (elgg_is_logged_in()) {
+			forward($returnTo);
+		} else {
+			$_SESSION["last_forward_from"] = $returnTo;
+		}
 	}
 }
 
