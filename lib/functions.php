@@ -154,8 +154,9 @@ function simplesaml_is_enabled_source($source) {
  * @return bool|ElggUser the user that is linked, false if no user could be found
  */
 function simplesaml_find_user($source, $saml_attributes) {
+	$site = elgg_get_site_entity();
 	$result = false;
-	
+
 	if (!empty($source) && !empty($saml_attributes) && is_array($saml_attributes)) {
 		$saml_uid = elgg_extract("elgg:external_id", $saml_attributes);
 		if (is_array($saml_uid)) {
@@ -177,6 +178,12 @@ function simplesaml_find_user($source, $saml_attributes) {
 			$users = elgg_get_entities_from_plugin_user_settings($options);
 			if (!empty($users)) {
 				$result = $users[0];
+			} else {
+				$options["plugin_id"] = "simplesaml:{$site->guid}";
+				$users = elgg_get_entities_from_plugin_user_settings($options);
+				if ($users) {
+					$result = $users[0];
+				}
 			}
 			
 			// no user found, can we auto link
